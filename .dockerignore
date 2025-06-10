@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+.git/
+.gitignore
+*.DS_Store
+
+# Logs and temporary files from local test runs
+launcher.log
+web_srtft_test_run.log
+uvicorn.log
+streamlit.log
+dummy_eeg_for_test.csv
+
+# IDE and OS specific
+.idea/
+.vscode/
+*.swp
+*.swo

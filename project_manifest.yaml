@@ -1,24 +1,32 @@
 project_name: "Simple Real-Time Focus Tracker (SRTFT)"
 created_by: "FlowSense AI (simulated by Jules)"
-created_on: "2025-06-09" # Date captured from previous step
-version: "1.0.0" # Updated version for completion
-description: "A simple real-time focus tracker using synthetic EEG data, built according to the FlowSense PDR. Includes data generation, preprocessing, feature extraction, model training, and a simulated real-time console application."
+created_on: "2025-06-09" # Date from previous update
+version: "1.1.0" # Increment version for web app and Docker features
+
+description: "A simple real-time focus tracker using synthetic EEG data. Includes data generation, preprocessing, feature extraction, model training, a console simulation, a web API (FastAPI), a web UI (Streamlit), and Docker containerization."
 
 core_modules:
   - flowsense.data.synthetic.generate_eeg
   - flowsense.backend.eeg_preprocessing
   - flowsense.backend.feature_extraction
   - flowsense.backend.models.classifier
-  - flowsense.run
+  - flowsense.backend.api.main # Added: FastAPI application
+  - flowsense.frontend.app     # Added: Streamlit application
+  - flowsense.run              # Console simulation runner
   - flowsense.tests.test_srtft_pipeline
 
 dependencies:
   - python: 3.9+
-  - numpy: ">=1.20" # Example with version specifier
+  - numpy: ">=1.20"
   - pandas: ">=1.3"
   - scikit-learn: ">=1.0"
   - joblib: ">=1.0"
   - scipy: ">=1.7"
+  - fastapi: ">=0.100" # Added
+  - uvicorn: ">=0.20"  # Added (with standard extras often used via uvicorn[standard])
+  - pydantic: ">=2.0"  # Added
+  - streamlit: ">=1.20" # Added
+  - requests: ">=2.25" # Added
 
 model_details:
   model_name: "Logistic Regression"
@@ -29,5 +37,21 @@ model_details:
     - variance_per_channel
     - alpha_band_power_per_channel (8-12Hz)
     - beta_band_power_per_channel (15-30Hz)
+
+packaging_utils:
+  - Dockerfile
+  - .dockerignore
+  - requirements.txt
+  - run_web_srtft.sh # Shell script to launch web API and UI
+
+deployment_info:
+  status: "Docker-ready"
+  ports:
+    api: 8000
+    ui: 8501
+  run_commands:
+    local_web: "./run_web_srtft.sh"
+    docker_build: "docker build -t srtft-app ."
+    docker_run: "docker run -d -p 8000:8000 -p 8501:8501 srtft-app"
 
 # PDR Reference: Sections 2.7 (Documentation), 6 (Code Gen Behavior - Developer Footprint)
